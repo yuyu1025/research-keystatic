@@ -1,4 +1,4 @@
-name: Deploy Cloudflare Worker
+name: Deploy Pages and Worker
 
 on:
   push:
@@ -7,13 +7,45 @@ on:
 
 permissions:
   contents: read
+  pages: write
+  id-token: write
 
 concurrency:
-  group: worker
-  cancel-in-progress: true
+  group: deploy
+  cancel-in-progress: false
 
 jobs:
-  deploy:
+  pages-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.15.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - uses: actions/configure-pages@v5
+      - name: Install
+        run: pnpm install --frozen-lockfile
+      - name: Build static site
+        run: pnpm build:pages
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./out
+
+  pages-deploy:
+    needs: pages-build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
+
+  worker:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:

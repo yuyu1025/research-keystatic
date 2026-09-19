@@ -23,7 +23,7 @@ pnpm dev
 | http://localhost:3000 | 主题首页 |
 | http://localhost:3000/studio | 双栏工作室 |
 | http://localhost:3000/posts | 文章列表 |
-| http://localhost:3000/keystatic | Admin |
+| http://localhost:3000/console | Admin（跳到 /keystatic） |
 
 左侧改文案，右侧应立刻变。这时 `content/homepage.yaml` 还没动。点「保存到文件」（或 ⌘S）才写盘。独立预览 `/preview` 读的是文件，所以未保存的草稿那里看不见。
 
@@ -57,19 +57,21 @@ pnpm dev
 
 ## 发布
 
-整站跑在 **Cloudflare Workers**（OpenNext），域名 `https://research.distinctive.fun`。`/keystatic` 在线上就能用，不必再开本地服务。
+同一域名，两套宿主：
+
+| 路径 | 宿主 |
+| --- | --- |
+| `/`、`/posts`、静态页 | GitHub Pages |
+| `/console`、`/keystatic`、`/api/keystatic` | Cloudflare Worker |
 
 ```
-浏览器  /keystatic  ──GitHub OAuth──► Worker
-                                         │
-                                         ▼
-                              commit 到仓库 content/
-                                         │
-                                         ▼
-                              GitHub Actions ──► 重新部署 Worker
+浏览器  /console  ──► Worker ──GitHub OAuth──► 仓库 content/
+                                                    │
+                                                    ▼
+                              GitHub Actions ──► Pages 静态站 + Worker
 ```
 
-后台：https://research.distinctive.fun/keystatic
+后台：https://research.distinctive.fun/console （跳到 `/keystatic`，Keystatic 的 API 路径写死了）
 
 GitHub App 回调要包含：
 
@@ -78,4 +80,4 @@ https://research.distinctive.fun/api/keystatic/github/oauth/callback
 http://localhost:3000/api/keystatic/github/oauth/callback
 ```
 
-本地教学工作室仍是 `pnpm dev` → http://localhost:3000/studio （会写本地文件，和线上 GitHub 模式分开）。
+本地教学工作室仍是 `pnpm dev` → http://localhost:3000/studio 。

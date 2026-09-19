@@ -10,7 +10,7 @@ export function SiteHeader({ siteName }: { siteName: string }) {
       <nav>
         {isDevStudio ? <Link href="/studio">工作室</Link> : null}
         <Link href="/posts">文章</Link>
-        <a href="/keystatic">Admin</a>
+        <a href="/console">Admin</a>
       </nav>
     </header>
   );

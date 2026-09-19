@@ -17,7 +17,15 @@
   "workers_dev": true,
   "routes": [
     {
-      "pattern": "research.distinctive.fun/*",
+      "pattern": "research.distinctive.fun/console*",
+      "zone_name": "distinctive.fun"
+    },
+    {
+      "pattern": "research.distinctive.fun/keystatic*",
+      "zone_name": "distinctive.fun"
+    },
+    {
+      "pattern": "research.distinctive.fun/api/keystatic*",
       "zone_name": "distinctive.fun"
     }
   ],

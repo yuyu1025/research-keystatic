@@ -15,6 +15,7 @@
     "preinstall": "node scripts/ensure-pnpm.js",
     "dev": "next dev",
     "build": "next build",
+    "build:pages": "node scripts/build-pages.js",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "setup:github-app": "node scripts/setup-github-app.mjs",
