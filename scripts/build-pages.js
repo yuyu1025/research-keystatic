@@ -8,7 +8,7 @@ const path = require('node:path');
 
 const root = path.join(__dirname, '..');
 const stash = path.join(root, '.pages-exclude');
-const exclude = ['app/api', 'app/keystatic', 'app/studio'];
+const exclude = ['app/api', 'app/keystatic', 'app/studio', 'app/console'];
 const siteHost = 'research.distinctive.fun';
 
 function stashDir(rel) {

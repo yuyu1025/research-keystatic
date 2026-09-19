@@ -117,6 +117,21 @@ code {
   color: #c5c0b4;
 }
 
+.studio-modes {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.studio-modes [aria-current='page'] {
+  border: 1px solid var(--amber);
+  background: var(--amber);
+  color: #1a1408;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+}
+
 .studio-actions {
   margin-left: auto;
 }

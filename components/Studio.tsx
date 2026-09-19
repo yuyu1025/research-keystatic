@@ -42,12 +42,19 @@ export function Studio({
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify(draft),
       });
+      if (response.status === 401) {
+        window.location.href = '/api/keystatic/github/login';
+        return;
+      }
       if (!response.ok) {
         const body = await response.text();
         throw new Error(body || `保存失败 (${response.status})`);
       }
+      const result = (await response.json()) as { via?: string };
       setSaved(draft);
-      setFlash('已写入 content/homepage.yaml');
+      setFlash(
+        result.via === 'github' ? '已提交到 GitHub，静态站稍后更新' : '已写入 content/homepage.yaml'
+      );
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : String(caught));
     } finally {
@@ -86,9 +93,14 @@ export function Studio({
     <div className="studio">
       <header className="studio-toolbar">
         <div className="studio-brand">
-          <strong>教学工作室</strong>
-          <span>{dirty ? '草稿 · 未写入文件' : '与文件一致'}</span>
+          <strong>编辑 + 预览</strong>
+          <span>{dirty ? '草稿 · 未保存' : '与已保存内容一致'}</span>
         </div>
+        <nav className="studio-modes" aria-label="编辑模式">
+          <a href="/">纯预览</a>
+          <a href="/keystatic/branch/main/singleton/homepage">纯编辑</a>
+          <span aria-current="page">双栏</span>
+        </nav>
 
         <div className="studio-mobile-tabs" role="tablist" aria-label="栏">
           <button
@@ -114,13 +126,10 @@ export function Studio({
             disabled={!dirty || saving}
             onClick={() => void save()}
           >
-            {saving ? '写入中…' : '保存到文件'}
+            {saving ? '保存中…' : '保存'}
           </button>
-          <a href="/preview" target="_blank" rel="noreferrer">
-            已保存预览
-          </a>
-          <a href="/keystatic/singleton/homepage" target="_blank" rel="noreferrer">
-            Admin
+          <a href="/" target="_blank" rel="noreferrer">
+            已发布站点
           </a>
         </div>
       </header>

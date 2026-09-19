@@ -20,8 +20,8 @@ const nextConfig: NextConfig = {
         async redirects() {
           return [
             {
-              source: '/console',
-              destination: '/keystatic',
+              source: '/studio',
+              destination: '/console',
               permanent: false,
             },
           ];

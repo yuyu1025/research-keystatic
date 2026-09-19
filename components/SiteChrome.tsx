@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { isDevStudio } from '../lib/site-env';
 
 export function SiteHeader({ siteName }: { siteName: string }) {
   return (
@@ -8,9 +7,9 @@ export function SiteHeader({ siteName }: { siteName: string }) {
         {siteName}
       </Link>
       <nav>
-        {isDevStudio ? <Link href="/studio">工作室</Link> : null}
         <Link href="/posts">文章</Link>
-        <a href="/console">Admin</a>
+        <a href="/console">工作室</a>
+        <a href="/keystatic">Admin</a>
       </nav>
     </header>
   );

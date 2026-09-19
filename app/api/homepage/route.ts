@@ -1,44 +1,44 @@
 import { writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import { stringify } from 'yaml';
 import type { Homepage } from '../../../lib/content-types';
+import {
+  commitHomepageToGitHub,
+  githubTokenFromCookie,
+  homepageYaml,
+} from '../../../lib/homepage-store';
 
 export const dynamic = 'force-dynamic';
 
-/**
- * 把内存草稿写成 Keystatic 能读的 YAML。
- * 这是工作室唯一写盘的入口。预览不走这里。
- */
 export async function PUT(request: Request) {
-  if (process.env.NODE_ENV === 'production') {
-    return new Response('线上请用 /keystatic 写 GitHub，不要走本地写盘。', {
-      status: 405,
-    });
-  }
-  const body = (await request.json()) as Homepage;
-  if (!body || typeof body.siteName !== 'string' || !Array.isArray(body.sections)) {
-    return new Response('首页 payload 不完整：需要 siteName 和 sections', {
+  let yaml: string;
+  try {
+    yaml = homepageYaml((await request.json()) as Homepage);
+  } catch (caught) {
+    return new Response(caught instanceof Error ? caught.message : String(caught), {
       status: 400,
     });
   }
 
-  for (const section of body.sections) {
-    if (!section || typeof section.discriminant !== 'string' || section.value == null) {
-      return new Response('sections 里有条目缺 discriminant 或 value', {
-        status: 400,
-      });
-    }
+  if (process.env.NODE_ENV !== 'production') {
+    await writeFile(path.join(process.cwd(), 'content/homepage.yaml'), yaml, 'utf8');
+    return Response.json({ ok: true, via: 'file' });
   }
 
-  const yaml = stringify(
-    { siteName: body.siteName, sections: body.sections },
-    { lineWidth: 92 }
-  );
-  await writeFile(
-    path.join(process.cwd(), 'content/homepage.yaml'),
-    yaml.endsWith('\n') ? yaml : `${yaml}\n`,
-    'utf8'
-  );
+  const token = githubTokenFromCookie(request.headers.get('cookie'));
+  if (!token) {
+    return Response.json(
+      { error: 'unauthorized', login: '/api/keystatic/github/login' },
+      { status: 401 }
+    );
+  }
 
-  return Response.json({ ok: true });
+  try {
+    await commitHomepageToGitHub(yaml, token);
+  } catch (caught) {
+    return new Response(caught instanceof Error ? caught.message : String(caught), {
+      status: 502,
+    });
+  }
+
+  return Response.json({ ok: true, via: 'github' });
 }

@@ -1,12 +1,5 @@
-import { Studio } from '../../components/Studio';
-import { loadHomepage, loadPostSummaries } from '../../lib/load-site';
+import { redirect } from 'next/navigation';
 
-export const dynamic = 'force-dynamic';
-
-export default async function StudioPage() {
-  const [homepage, posts] = await Promise.all([
-    loadHomepage(),
-    loadPostSummaries(),
-  ]);
-  return <Studio initial={homepage} posts={posts} />;
+export default function StudioRedirect() {
+  redirect('/console');
 }

@@ -27,6 +27,14 @@
     {
       "pattern": "research.distinctive.fun/api/keystatic*",
       "zone_name": "distinctive.fun"
+    },
+    {
+      "pattern": "research.distinctive.fun/api/homepage*",
+      "zone_name": "distinctive.fun"
+    },
+    {
+      "pattern": "research.distinctive.fun/studio*",
+      "zone_name": "distinctive.fun"
     }
   ],
   "services": [
