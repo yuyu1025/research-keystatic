@@ -1,16 +1,5 @@
 siteName: Keystatic 教学主题
 sections:
-  - discriminant: hero
-    value:
-      eyebrow: 教学 Demo
-      title: 组件拼首页。左边改，右边看。
-      description: >-
-        首页不是一篇 Markdown，是一组带 discriminant 的区块。 每个区块对应一个 React 组件。左侧改草稿，右侧立刻变。保存才写入
-        YAML。
-      primaryLabel: 阅读教学文档
-      primaryHref: /posts/welcome
-      secondaryLabel: 打开完整 Admin
-      secondaryHref: /keystatic
   - discriminant: features
     value:
       title: 你要带走的三件事
@@ -23,6 +12,17 @@ sections:
           body: 左右共享一份草稿。预览不读盘。Save 才是写 content/homepage.yaml 的那一下。
         - title: 文章走另一条路
           body: 首页用 blocks 字段；文章正文用 Markdoc 内容组件。两种组件化，别混。
+  - discriminant: hero
+    value:
+      eyebrow: 教学 Demo
+      title: 组件拼首页。左边改，右边看。
+      description: >-
+        首页不是一篇 Markdown，是一组带 discriminant 的区块。 每个区块对应一个 React
+        组件。左侧改草稿，右侧立刻变。保存才写入 YAML。
+      primaryLabel: 阅读教学文档
+      primaryHref: /posts/welcome
+      secondaryLabel: 打开完整 Admin
+      secondaryHref: /keystatic
   - discriminant: split
     value:
       kicker: 为什么这样拆
