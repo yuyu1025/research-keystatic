@@ -60,7 +60,7 @@ jobs:
       - name: Install
         run: pnpm install --frozen-lockfile
       - name: Build OpenNext
-        run: pnpm exec opennextjs-cloudflare build
+        run: pnpm build:worker
         env:
           NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG: ${{ secrets.NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG }}
           KEYSTATIC_GITHUB_CLIENT_ID: ${{ secrets.KEYSTATIC_GITHUB_CLIENT_ID }}

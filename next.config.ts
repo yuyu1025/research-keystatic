@@ -5,6 +5,8 @@ const isPages = process.env.NEXT_PUBLIC_STATIC_EXPORT === '1';
 
 const nextConfig: NextConfig = {
   output: isPages ? 'export' : undefined,
+  // Worker 只接管 /console 和 /keystatic。JS 不能走 Pages 的 /_next。
+  assetPrefix: isPages ? undefined : '/console',
   images: { unoptimized: true },
   trailingSlash: isPages,
   outputFileTracingIncludes: isPages
@@ -20,11 +22,6 @@ const nextConfig: NextConfig = {
             {
               source: '/console',
               destination: '/keystatic',
-              permanent: false,
-            },
-            {
-              source: '/console/:path*',
-              destination: '/keystatic/:path*',
               permanent: false,
             },
           ];

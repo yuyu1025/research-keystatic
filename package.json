@@ -16,8 +16,9 @@
     "dev": "next dev",
     "build": "next build",
     "build:pages": "node scripts/build-pages.js",
-    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
-    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "build:worker": "opennextjs-cloudflare build && node scripts/prefix-worker-assets.js",
+    "preview": "pnpm build:worker && opennextjs-cloudflare preview",
+    "deploy": "pnpm build:worker && opennextjs-cloudflare deploy",
     "setup:github-app": "node scripts/setup-github-app.mjs",
     "start": "next start",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
