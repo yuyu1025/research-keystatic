@@ -4,6 +4,8 @@ import { reader } from '../../reader';
 import { renderMarkdoc } from '../../../lib/render-markdoc';
 import { SiteFooter, SiteHeader } from '../../../components/SiteChrome';
 
+export const dynamic = 'force-static';
+
 export async function generateStaticParams() {
   const posts = await reader.collections.posts.all();
   return posts.map(post => ({ slug: post.slug }));

@@ -1,6 +1,6 @@
 # Keystatic 教学主题
 
-给课堂用的 Keystatic + Next.js demo。首页是 **typed blocks 拼出来的**，`/` 是 **左编辑、右预览** 的工作室。
+给课堂用的 Keystatic + Next.js demo。首页是 **typed blocks 拼出来的**，`/studio` 是 **左编辑、右预览** 的工作室。
 
 ```
 左侧编辑器 ──onChange──► 内存草稿 ──► 右侧预览（即时）
@@ -20,8 +20,8 @@ pnpm dev
 
 | 地址 | 干什么 |
 | --- | --- |
-| http://localhost:3000 | 双栏工作室 |
-| http://localhost:3000/preview | 独立主题首页 |
+| http://localhost:3000 | 主题首页 |
+| http://localhost:3000/studio | 双栏工作室 |
 | http://localhost:3000/posts | 文章列表 |
 | http://localhost:3000/keystatic | Admin |
 
@@ -78,4 +78,4 @@ https://research.distinctive.fun/api/keystatic/github/oauth/callback
 http://localhost:3000/api/keystatic/github/oauth/callback
 ```
 
-本地教学工作室仍是 `pnpm dev` → http://localhost:3000 （会写本地文件，和线上 GitHub 模式分开）。
+本地教学工作室仍是 `pnpm dev` → http://localhost:3000/studio （会写本地文件，和线上 GitHub 模式分开）。

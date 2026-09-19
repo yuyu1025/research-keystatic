@@ -17,8 +17,8 @@
   "workers_dev": true,
   "routes": [
     {
-      "pattern": "research.distinctive.fun",
-      "custom_domain": true
+      "pattern": "research.distinctive.fun/*",
+      "zone_name": "distinctive.fun"
     }
   ],
   "services": [

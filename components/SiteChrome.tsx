@@ -2,14 +2,13 @@ import Link from 'next/link';
 import { isDevStudio } from '../lib/site-env';
 
 export function SiteHeader({ siteName }: { siteName: string }) {
-  const homeHref = isDevStudio ? '/preview' : '/';
   return (
     <header className="site-header">
-      <Link className="site-mark" href={homeHref}>
+      <Link className="site-mark" href="/">
         {siteName}
       </Link>
       <nav>
-        {isDevStudio ? <Link href="/">工作室</Link> : null}
+        {isDevStudio ? <Link href="/studio">工作室</Link> : null}
         <Link href="/posts">文章</Link>
         <a href="/keystatic">Admin</a>
       </nav>

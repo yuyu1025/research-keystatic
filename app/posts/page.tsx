@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { reader } from '../reader';
 import { SiteFooter, SiteHeader } from '../../components/SiteChrome';
 
+export const dynamic = 'force-static';
+
 export default async function PostsPage() {
   const homepage = await reader.singletons.homepage.read();
   const siteName = homepage?.siteName ?? 'Keystatic 教学主题';
