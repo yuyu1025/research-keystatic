@@ -1,6 +1,6 @@
 # Keystatic 教学主题
 
-给课堂用的 Keystatic + Next.js demo。首页是 **typed blocks 拼出来的**，`/studio` 是 **左编辑、右预览** 的工作室。
+给课堂用的 Keystatic + Next.js demo。首页是 **typed blocks 拼出来的**。`/` 是博客，`/keystatic` 是后台。
 
 ```
 左侧编辑器 ──onChange──► 内存草稿 ──► 右侧预览（即时）
@@ -20,11 +20,11 @@ pnpm dev
 
 | 地址 | 干什么 |
 | --- | --- |
-| http://localhost:3000 | 主题首页 |
-| http://localhost:3000/studio | 双栏工作室 |
+| http://localhost:3000 | 博客 |
 | http://localhost:3000/posts | 文章列表 |
-| http://localhost:3000/console | 双栏工作室 |
-| http://localhost:3000/keystatic | Admin |
+| http://localhost:3000/keystatic | 后台 |
+| http://localhost:3000/keystatic/preview | 后台预览 |
+| http://localhost:3000/keystatic/preview?edit=1 | 双栏编辑 |
 
 左侧改文案，右侧应立刻变。这时 `content/homepage.yaml` 还没动。点「保存到文件」（或 ⌘S）才写盘。独立预览 `/preview` 读的是文件，所以未保存的草稿那里看不见。
 
@@ -62,19 +62,20 @@ pnpm dev
 
 | 路径 | 行为 | 宿主 |
 | --- | --- | --- |
-| `/` | 纯预览 | GitHub Pages |
-| `/keystatic` | 纯编辑（Admin） | Cloudflare Worker |
-| `/console` | 左编辑、右即时预览 | Cloudflare Worker |
+| `/` | 博客 | GitHub Pages |
+| `/keystatic` | 后台（子页在 `/keystatic/...`） | Cloudflare Worker |
+| `/keystatic/preview` | 后台预览 | Cloudflare Worker |
+| `/keystatic/preview?edit=1` | 左编辑、右即时预览 | Cloudflare Worker |
 
 ```
-浏览器  /console  ──► Worker ──GitHub OAuth──► 仓库 content/
+浏览器  /keystatic  ──► Worker ──GitHub OAuth──► 仓库 content/
                                                     │
                                                     ▼
                               GitHub Actions ──► Pages 静态站 + Worker
 ```
 
-双栏工作室：https://research.distinctive.fun/console  
-Admin：https://research.distinctive.fun/keystatic
+后台：https://research.distinctive.fun/keystatic  
+预览：https://research.distinctive.fun/keystatic/preview
 
 GitHub App 回调要包含：
 
@@ -83,4 +84,4 @@ https://research.distinctive.fun/api/keystatic/github/oauth/callback
 http://localhost:3000/api/keystatic/github/oauth/callback
 ```
 
-本地 `pnpm dev` 时 `/console` 同样是双栏，保存写本地文件。
+本地 `pnpm dev` 时路径一样，保存写本地文件。

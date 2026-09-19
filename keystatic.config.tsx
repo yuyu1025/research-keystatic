@@ -198,7 +198,7 @@ export default config({
     homepage: singleton({
       label: '首页',
       path: 'content/homepage',
-      previewUrl: '/preview',
+      previewUrl: '/keystatic/preview',
       schema: {
         siteName: fields.text({
           label: '站点名称',

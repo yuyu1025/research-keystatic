@@ -1,5 +1,5 @@
 /_next/static/*
   Cache-Control: public,max-age=31536000,immutable
 
-/console/_next/static/*
+/keystatic/_next/static/*
   Cache-Control: public,max-age=31536000,immutable

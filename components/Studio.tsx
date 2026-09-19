@@ -97,9 +97,9 @@ export function Studio({
           <span>{dirty ? '草稿 · 未保存' : '与已保存内容一致'}</span>
         </div>
         <nav className="studio-modes" aria-label="编辑模式">
-          <a href="/">纯预览</a>
-          <a href="/keystatic/branch/main/singleton/homepage">纯编辑</a>
+          <a href="/keystatic/preview">纯预览</a>
           <span aria-current="page">双栏</span>
+          <a href="/keystatic">后台</a>
         </nav>
 
         <div className="studio-mobile-tabs" role="tablist" aria-label="栏">

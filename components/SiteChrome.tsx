@@ -8,8 +8,7 @@ export function SiteHeader({ siteName }: { siteName: string }) {
       </Link>
       <nav>
         <Link href="/posts">文章</Link>
-        <a href="/console">工作室</a>
-        <a href="/keystatic">Admin</a>
+        <a href="/keystatic">后台</a>
       </nav>
     </header>
   );

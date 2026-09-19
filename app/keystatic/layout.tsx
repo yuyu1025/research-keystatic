@@ -1,5 +1,5 @@
-import KeystaticApp from './keystatic';
+import type { ReactNode } from 'react';
 
-export default function RootLayout() {
-  return <KeystaticApp />;
+export default function KeystaticRootLayout({ children }: { children: ReactNode }) {
+  return children;
 }
