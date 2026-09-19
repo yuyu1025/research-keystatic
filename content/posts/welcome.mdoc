@@ -1,0 +1,38 @@
+---
+title: 欢迎，先把地图看完
+summary: 这个仓库怎么走：工作室、schema、主题组件、内容文件。读完再动手。
+publishedAt: 2026-09-19
+---
+
+{% Callout tone="tip" title="先做这一件事" %}
+打开 [教学工作室](/)，改 Hero 标题，**不要保存**。右侧应马上变。再点保存，去 `content/homepage.yaml` 确认文件这才改了。
+{% /Callout %}
+
+这不是官方 Keystatic 模板的美化版。它只教三件事：
+
+1. **首页是 page builder**：`fields.blocks` + `discriminant`
+2. **文章是富文本 + 内容组件**：Markdoc tag 映射到 React
+3. **双栏工作室是一份草稿**：预览吃内存，Save 才写盘
+
+## 该打开的文件
+
+- `keystatic.config.tsx` — schema，唯一真相
+- `components/sections.tsx` — 首页区块怎么变成 UI
+- `components/markdoc.tsx` — 文章 tag 怎么变成 UI
+- `content/homepage.yaml` — 首页现在长什么样
+- `docs/TEACHING.md` — 更完整的讲解
+
+选中这段 {% Highlight %}数据结构先于组件{% /Highlight %}，就是本课的中心句。
+
+## 路由
+
+| 地址 | 作用 |
+| --- | --- |
+| `/` | 双栏工作室 |
+| `/preview` | 独立主题首页 |
+| `/posts` | 文章列表 |
+| `/keystatic` | Admin |
+
+{% Callout tone="note" title="本地模式" %}
+`storage.kind` 是 `local`。Keystatic Admin 在 Save 之前不写盘，所以不能把 Admin iframe 当左栏再去读文件做预览——那永远慢一拍。工作室自己持有草稿，左右共享。
+{% /Callout %}

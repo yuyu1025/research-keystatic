@@ -1,0 +1,57 @@
+---
+title: 如何加一个首页区块
+summary: 页面三处，工作室再加两处。漏一处要么编译失败，要么运行时炸掉。这是故意的。
+publishedAt: 2026-09-19
+---
+
+加一个 `stats` 数字条，走完一遍你就懂组件化了。
+
+## 1. Schema
+
+在 `keystatic.config.tsx` 的 `homepageSections` 里加：
+
+```ts
+stats: {
+  label: '数字条',
+  schema: fields.object({
+    items: fields.array(
+      fields.object({
+        value: fields.text({ label: '数字' }),
+        label: fields.text({ label: '说明' }),
+      }),
+      { label: '数字', itemLabel: props => props.fields.label.value || '未命名' }
+    ),
+  }),
+},
+```
+
+保存。Admin 的「添加区块」菜单现在应该出现「数字条」。
+
+## 2. 渲染器
+
+在 `components/sections.tsx` 的 switch 里加 `case 'stats'`。
+**不要**写 `default: return null`。那个 `never` 赋值就是你的检查器：schema 有、渲染器没有，编译就该失败。
+
+## 3. 工作室（想在左侧加、右侧立刻看才需要）
+
+`lib/homepage-blocks.ts` 的 `SECTION_OPTIONS` / `emptySection`，以及 `HomepageEditor.tsx` 的 switch，各加一个 `stats`。漏了打开工作室就会炸——同样是 `never` 在干活。
+
+## 4. 数据
+
+编辑 `content/homepage.yaml`，或在工作室左侧下拉添加。YAML 长这样：
+
+```yaml
+- discriminant: stats
+  value:
+    items:
+      - value: '3'
+        label: 要改的文件数
+      - value: '1'
+        label: 数据源
+```
+
+{% Callout tone="warning" title="常见错误" %}
+discriminant 拼错，Reader 仍会读出数据，但 switch 会落到 `never` 上把页面炸开。这比静默空白好——空白会让你以为 CSS 坏了。
+{% /Callout %}
+
+做完这些，工作室里加一个数字条，右侧应立刻出现。点保存后 YAML 才变。

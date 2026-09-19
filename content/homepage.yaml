@@ -1,0 +1,51 @@
+siteName: Keystatic 教学主题
+sections:
+  - discriminant: hero
+    value:
+      eyebrow: 教学 Demo
+      title: 组件拼首页。左边改，右边看。
+      description: >-
+        首页不是一篇 Markdown，是一组带 discriminant 的区块。 每个区块对应一个 React 组件。左侧改草稿，右侧立刻变。保存才写入
+        YAML。
+      primaryLabel: 阅读教学文档
+      primaryHref: /posts/welcome
+      secondaryLabel: 打开完整 Admin
+      secondaryHref: /keystatic
+  - discriminant: features
+    value:
+      title: 你要带走的三件事
+      items:
+        - title: 数据结构先于组件
+          body: schema 是真相。组件只是 discriminant 的投影。先改 YAML，再谈样式。
+        - title: 加区块只有三处
+          body: keystatic.config.tsx、sections.tsx、homepage.yaml。漏写渲染器会被 never 检查抓住。
+        - title: 双栏是教学工具
+          body: 左右共享一份草稿。预览不读盘。Save 才是写 content/homepage.yaml 的那一下。
+        - title: 文章走另一条路
+          body: 首页用 blocks 字段；文章正文用 Markdoc 内容组件。两种组件化，别混。
+  - discriminant: split
+    value:
+      kicker: 为什么这样拆
+      title: 首页是结构，文章是叙述
+      body: >-
+        把首页写成一篇长 Markdown，看起来快，改起来会变成一堆 if。 blocks 字段让每种区块有自己的字段表，Reader 吐出的就是 {
+        discriminant, value }。 渲染器用 switch 穷尽所有 discriminant，没有第三种数据源。
+      asideTitle: 文件落在哪
+      asideBody: >-
+        首页：content/homepage.yaml。文章：content/posts/*.mdoc。 工作室 Save 和 Admin
+        保存，写的都是这两个地方。Git 能 diff 的才叫内容。
+  - discriminant: quote
+    value:
+      quote: 先把数据结构想清楚。组件只是那张表的投影。
+      author: 教学注释
+      role: 不是一句口号，是这个仓库的组织方式
+  - discriminant: posts
+    value:
+      title: 从这两篇开始
+      limit: 3
+  - discriminant: cta
+    value:
+      title: 下一步：自己加一个区块
+      body: 打开「如何加一个首页区块」，按三步做完。做完你就懂这个主题了。
+      buttonLabel: 动手加区块
+      buttonHref: /posts/add-a-section
