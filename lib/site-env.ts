@@ -3,5 +3,5 @@ export const repoName = 'research-keystatic';
 export const siteHost = 'research.distinctive.fun';
 export const siteUrl = `https://${siteHost}`;
 
-/** GitHub Pages 静态导出时由 build:pages 注入。本地 dev / SSR 不要设。 */
-export const isStaticExport = process.env.NEXT_PUBLIC_STATIC_EXPORT === '1';
+/** 线上 Worker / `next start` 是 production；`next dev` 才开本地工作室。 */
+export const isDevStudio = process.env.NODE_ENV !== 'production';

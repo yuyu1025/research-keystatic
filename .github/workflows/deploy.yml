@@ -1,0 +1,50 @@
+name: Deploy Cloudflare Worker
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: worker
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.15.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Install
+        run: pnpm install --frozen-lockfile
+      - name: Build OpenNext
+        run: pnpm exec opennextjs-cloudflare build
+        env:
+          NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG: ${{ secrets.NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG }}
+          KEYSTATIC_GITHUB_CLIENT_ID: ${{ secrets.KEYSTATIC_GITHUB_CLIENT_ID }}
+          KEYSTATIC_GITHUB_CLIENT_SECRET: ${{ secrets.KEYSTATIC_GITHUB_CLIENT_SECRET }}
+          KEYSTATIC_SECRET: ${{ secrets.KEYSTATIC_SECRET }}
+      - name: Deploy
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy
+          secrets: |
+            KEYSTATIC_GITHUB_CLIENT_ID
+            KEYSTATIC_GITHUB_CLIENT_SECRET
+            KEYSTATIC_SECRET
+        env:
+          KEYSTATIC_GITHUB_CLIENT_ID: ${{ secrets.KEYSTATIC_GITHUB_CLIENT_ID }}
+          KEYSTATIC_GITHUB_CLIENT_SECRET: ${{ secrets.KEYSTATIC_GITHUB_CLIENT_SECRET }}
+          KEYSTATIC_SECRET: ${{ secrets.KEYSTATIC_SECRET }}

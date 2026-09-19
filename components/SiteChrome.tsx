@@ -1,17 +1,17 @@
 import Link from 'next/link';
-import { isStaticExport } from '../lib/site-env';
+import { isDevStudio } from '../lib/site-env';
 
 export function SiteHeader({ siteName }: { siteName: string }) {
-  const homeHref = isStaticExport ? '/' : '/preview';
+  const homeHref = isDevStudio ? '/preview' : '/';
   return (
     <header className="site-header">
       <Link className="site-mark" href={homeHref}>
         {siteName}
       </Link>
       <nav>
-        {isStaticExport ? null : <Link href="/">工作室</Link>}
+        {isDevStudio ? <Link href="/">工作室</Link> : null}
         <Link href="/posts">文章</Link>
-        {isStaticExport ? null : <a href="/keystatic">Admin</a>}
+        <a href="/keystatic">Admin</a>
       </nav>
     </header>
   );

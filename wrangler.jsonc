@@ -1,0 +1,30 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "research-keystatic",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-09-19",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    "NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG": "yuyu1025-research-keystatic"
+  },
+  "workers_dev": true,
+  "routes": [
+    {
+      "pattern": "research.distinctive.fun",
+      "custom_domain": true
+    }
+  ],
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "research-keystatic"
+    }
+  ]
+}

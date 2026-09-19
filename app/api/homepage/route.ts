@@ -10,6 +10,11 @@ export const dynamic = 'force-dynamic';
  * 这是工作室唯一写盘的入口。预览不走这里。
  */
 export async function PUT(request: Request) {
+  if (process.env.NODE_ENV === 'production') {
+    return new Response('线上请用 /keystatic 写 GitHub，不要走本地写盘。', {
+      status: 405,
+    });
+  }
   const body = (await request.json()) as Homepage;
   if (!body || typeof body.siteName !== 'string' || !Array.isArray(body.sections)) {
     return new Response('首页 payload 不完整：需要 siteName 和 sections', {

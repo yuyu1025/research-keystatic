@@ -57,44 +57,25 @@ pnpm dev
 
 ## 发布
 
-线上是 **GitHub Pages 静态站**，域名 `https://research.distinctive.fun`。Pages 没有 Node，所以 `/keystatic` 和写文件的 API 只在本地跑。
+整站跑在 **Cloudflare Workers**（OpenNext），域名 `https://research.distinctive.fun`。`/keystatic` 在线上就能用，不必再开本地服务。
 
 ```
-本地 pnpm dev ──Keystatic GitHub mode──► 仓库 content/
-                                            │
-                                            ▼
-                               GitHub Actions ──► GitHub Pages
-                                            │
-                                            ▼
-                               research.distinctive.fun
+浏览器  /keystatic  ──GitHub OAuth──► Worker
+                                         │
+                                         ▼
+                              commit 到仓库 content/
+                                         │
+                                         ▼
+                              GitHub Actions ──► 重新部署 Worker
 ```
 
-### 本地 CMS（GitHub OAuth）
+后台：https://research.distinctive.fun/keystatic
 
-```bash
-pnpm setup:github-app
-```
-
-浏览器里确认创建 GitHub App，再安装到本仓库。然后：
-
-```bash
-pnpm dev
-```
-
-打开 http://localhost:3000/keystatic ，用 GitHub 登录。保存会直接 commit 到仓库，Actions 随后发版。
-
-App 回调地址：
+GitHub App 回调要包含：
 
 ```
+https://research.distinctive.fun/api/keystatic/github/oauth/callback
 http://localhost:3000/api/keystatic/github/oauth/callback
 ```
 
-### Cloudflare DNS
-
-域名托管在 Cloudflare。加一条和 `blog.distinctive.fun` 一样的记录：
-
-| Type | Name | Content | Proxy |
-| --- | --- | --- | --- |
-| CNAME | research | yuyu1025.github.io | 已代理 |
-
-SSL/TLS 用 **Full**。DNS 生效后 GitHub Pages 才会签发自定义域名证书。
+本地教学工作室仍是 `pnpm dev` → http://localhost:3000 （会写本地文件，和线上 GitHub 模式分开）。
