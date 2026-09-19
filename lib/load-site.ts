@@ -46,8 +46,6 @@ async function loadPostsFromGitHub(token?: string): Promise<PostSummary[]> {
             : '',
       summary: String(data.summary ?? ''),
       publishedAt: typeof data.publishedAt === 'string' ? data.publishedAt : null,
-      coverSrc: String(data.coverSrc ?? ''),
-      coverAlt: String(data.coverAlt ?? ''),
     });
   }
   return posts;
@@ -73,8 +71,6 @@ export async function loadPostSummaries(token?: string): Promise<PostSummary[]> 
       title: post.entry.title,
       summary: post.entry.summary,
       publishedAt: post.entry.publishedAt,
-      coverSrc: post.entry.coverSrc ?? '',
-      coverAlt: post.entry.coverAlt ?? '',
     }));
   }
   return loadPostsFromGitHub(token);
