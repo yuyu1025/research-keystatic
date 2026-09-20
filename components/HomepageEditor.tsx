@@ -1,5 +1,6 @@
 import type { Homepage, HomepageSection, HomepageSectionKind } from '../lib/content-types';
 import { emptySection, SECTION_OPTIONS, sectionLabel } from '../lib/homepage-blocks';
+import { AssetPicker } from './AssetPicker';
 
 /**
  * 左侧编辑器。onChange 立刻改草稿，不碰磁盘。
@@ -139,6 +140,36 @@ function SectionFields({
             label="次按钮链接"
             value={section.value.secondaryHref}
             onChange={secondaryHref => patch(section, onChange, { secondaryHref })}
+          />
+          <AssetPicker
+            label="配图"
+            value={section.value.imageSrc ?? ''}
+            onChange={imageSrc => patch(section, onChange, { imageSrc })}
+          />
+          <TextField
+            label="配图替代文本"
+            value={section.value.imageAlt ?? ''}
+            onChange={imageAlt => patch(section, onChange, { imageAlt })}
+          />
+        </>
+      );
+    case 'figure':
+      return (
+        <>
+          <AssetPicker
+            label="图片"
+            value={section.value.src ?? ''}
+            onChange={src => patch(section, onChange, { src })}
+          />
+          <TextField
+            label="替代文本"
+            value={section.value.alt}
+            onChange={alt => patch(section, onChange, { alt })}
+          />
+          <TextField
+            label="说明"
+            value={section.value.caption}
+            onChange={caption => patch(section, onChange, { caption })}
           />
         </>
       );

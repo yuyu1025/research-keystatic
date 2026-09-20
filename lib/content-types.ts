@@ -18,4 +18,6 @@ export type PostSummary = {
   title: string;
   summary: string;
   publishedAt: string | null;
+  coverSrc: string;
+  coverAlt: string;
 };

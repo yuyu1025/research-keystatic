@@ -14,6 +14,8 @@
 import { collection, config, fields, singleton } from '@keystatic/core';
 import { block, mark, wrapper } from '@keystatic/core/content-components';
 import { Callout, parseYoutubeId, Youtube } from './components/markdoc';
+import { uploadAsset } from './lib/assets-client';
+import { r2File, r2Image } from './lib/r2-fields';
 import { repoName, repoOwner } from './lib/site-env';
 
 const highlightIcon = (
@@ -33,6 +35,68 @@ const highlightIcon = (
  * 两边共用同一组 React 组件，避免「编辑器里一个样、线上另一个样」。
  */
 export const postContentComponents = {
+  Image: {
+    ...block({
+      label: '图片',
+      description: '选文件传到 Cloudflare R2。Git 只记下 URL。',
+      ContentView: ({ value }) => {
+        if (!value.src) return <p>选择一张图片</p>;
+        return (
+          <figure className="mdoc-figure">
+            <img src={value.src} alt={value.alt} />
+            {value.caption ? <figcaption>{value.caption}</figcaption> : null}
+          </figure>
+        );
+      },
+      schema: {
+        src: r2Image({
+          label: '图片',
+          validation: { isRequired: true },
+        }),
+        alt: fields.text({
+          label: '替代文本',
+          validation: { isRequired: true },
+        }),
+        caption: fields.text({ label: '说明' }),
+      },
+    }),
+    handleFile: file => {
+      if (!file.type.startsWith('image/')) return false;
+      return uploadAsset(file).then(uploaded => ({
+        src: uploaded.url,
+        alt: file.name.replace(/\.[^.]+$/, ''),
+        caption: '',
+      }));
+    },
+  },
+  Attachment: {
+    ...block({
+      label: '附件',
+      description: '选文件传到 Cloudflare R2。Git 只记下 URL。',
+      ContentView: ({ value }) => {
+        if (!value.href) return <p>选择一个文件</p>;
+        return (
+          <p>
+            <a href={value.href}>{value.label || value.href}</a>
+          </p>
+        );
+      },
+      schema: {
+        href: r2File({
+          label: '附件',
+          validation: { isRequired: true },
+        }),
+        label: fields.text({ label: '链接文案' }),
+      },
+    }),
+    handleFile: file => {
+      if (file.type.startsWith('image/')) return false;
+      return uploadAsset(file).then(uploaded => ({
+        href: uploaded.url,
+        label: file.name,
+      }));
+    },
+  },
   Callout: wrapper({
     label: '提示框',
     description: '带语气的提示容器，可包一段富文本。',
@@ -87,6 +151,8 @@ export const markdocConfig = fields.markdoc.createMarkdocConfig({
   components: postContentComponents,
   render: {
     tags: {
+      Image: 'Image',
+      Attachment: 'Attachment',
       Callout: 'Callout',
       Youtube: 'Youtube',
       Highlight: 'Highlight',
@@ -109,6 +175,19 @@ const homepageSections = {
       primaryHref: fields.text({ label: '主按钮链接' }),
       secondaryLabel: fields.text({ label: '次按钮文案' }),
       secondaryHref: fields.text({ label: '次按钮链接' }),
+      imageSrc: r2Image({ label: '配图' }),
+      imageAlt: fields.text({ label: '配图替代文本' }),
+    }),
+  },
+  figure: {
+    label: '配图',
+    schema: fields.object({
+      src: r2Image({
+        label: '图片',
+        validation: { isRequired: true },
+      }),
+      alt: fields.text({ label: '替代文本' }),
+      caption: fields.text({ label: '说明' }),
     }),
   },
   features: {
@@ -180,6 +259,8 @@ const richTextOptions = {
   divider: true,
   table: true,
   codeBlock: true,
+  // 自带插图会把二进制写进 Git。图片走 Image 组件 + R2。
+  image: false,
 } as const;
 
 export default config({
@@ -227,6 +308,8 @@ export default config({
           label: '发布日期',
           validation: { isRequired: true },
         }),
+        coverSrc: r2Image({ label: '封面' }),
+        coverAlt: fields.text({ label: '封面替代文本' }),
         content: fields.markdoc({
           label: '正文',
           options: richTextOptions,
