@@ -16,9 +16,7 @@ sections:
     value:
       eyebrow: 教学 Demo
       title: 组件拼首页。左边改，右边看。
-      description: >-
-        首页不是一篇 Markdown，是一组带 discriminant 的区块。 每个区块对应一个 React
-        组件。左侧改草稿，右侧立刻变。保存才写入 YAML。
+      description: 首页不是一篇 Markdown，是一组带 discriminant 的区块。 每个区块对应一个 React 组件。左侧改草稿，右侧立刻变。保存才写入 YAML。
       primaryLabel: 阅读教学文档
       primaryHref: /posts/welcome
       secondaryLabel: 打开完整 Admin
@@ -27,12 +25,10 @@ sections:
     value:
       kicker: 为什么这样拆
       title: 首页是结构，文章是叙述
-      body: >-
-        把首页写成一篇长 Markdown，看起来快，改起来会变成一堆 if。 blocks 字段让每种区块有自己的字段表，Reader 吐出的就是 {
-        discriminant, value }。 渲染器用 switch 穷尽所有 discriminant，没有第三种数据源。
+      body: 把首页写成一篇长 Markdown，看起来快，改起来会变成一堆 if。 blocks 字段让每种区块有自己的字段表，Reader 吐出的就是 { discriminant,
+        value }。 渲染器用 switch 穷尽所有 discriminant，没有第三种数据源。
       asideTitle: 文件落在哪
-      asideBody: >-
-        首页：content/homepage.yaml。文章：content/posts/*.mdoc。 工作室 Save 和 Admin
+      asideBody: 首页：content/homepage.yaml。文章：content/posts/*.mdoc。 工作室 Save 和 Admin
         保存，写的都是这两个地方。Git 能 diff 的才叫内容。
   - discriminant: quote
     value:
@@ -43,6 +39,15 @@ sections:
     value:
       title: 从这两篇开始
       limit: 3
+  - discriminant: hero
+    value:
+      eyebrow: 眉题
+      title: 新的首屏
+      description: 改左侧字段，右侧马上变。
+      primaryLabel: 主按钮
+      primaryHref: /
+      secondaryLabel: ""
+      secondaryHref: /
   - discriminant: cta
     value:
       title: 下一步：自己加一个区块
