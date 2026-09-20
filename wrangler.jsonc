@@ -12,8 +12,16 @@
     "enabled": true
   },
   "vars": {
-    "NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG": "yuyu1025-research-keystatic"
+    "NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG": "yuyu1025-research-keystatic",
+    "R2_PUBLIC_BASE_URL": "https://file.research.distinctive.fun"
   },
+  "r2_buckets": [
+    {
+      "binding": "MEDIA",
+      "bucket_name": "research"
+      // 本地要写真实桶：加 "remote": true，并 wrangler login
+    }
+  ],
   "workers_dev": true,
   "routes": [
     {
@@ -34,6 +42,14 @@
     },
     {
       "pattern": "research.distinctive.fun/studio*",
+      "zone_name": "distinctive.fun"
+    },
+    {
+      "pattern": "research.distinctive.fun/assets*",
+      "zone_name": "distinctive.fun"
+    },
+    {
+      "pattern": "research.distinctive.fun/api/assets*",
       "zone_name": "distinctive.fun"
     }
   ],

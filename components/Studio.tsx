@@ -128,6 +128,7 @@ export function Studio({
           >
             {saving ? '保存中…' : '保存'}
           </button>
+          <a href="/assets">资源库</a>
           <a href="/" target="_blank" rel="noreferrer">
             已发布站点
           </a>

@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { reader } from '../../reader';
 import { renderMarkdoc } from '../../../lib/render-markdoc';
 import { SiteFooter, SiteHeader } from '../../../components/SiteChrome';
+import { mediaUrl } from '../../../lib/media-url';
 
 export const dynamic = 'force-static';
 
@@ -24,6 +25,7 @@ export default async function PostPage(props: {
 
   const siteName = homepage?.siteName ?? 'Keystatic 教学主题';
   const { node } = await post.content();
+  const cover = mediaUrl(post.coverSrc);
 
   return (
     <div className="theme">
@@ -35,6 +37,9 @@ export default async function PostPage(props: {
         </p>
         <h1>{post.title}</h1>
         {post.summary ? <p className="lede">{post.summary}</p> : null}
+        {cover ? (
+          <img className="post-cover" src={cover} alt={post.coverAlt ?? ''} />
+        ) : null}
         <div className="post-body">{renderMarkdoc(node)}</div>
       </article>
       <SiteFooter siteName={siteName} />

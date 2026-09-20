@@ -5,6 +5,7 @@ export const SECTION_OPTIONS: {
   label: string;
 }[] = [
   { kind: 'hero', label: 'Hero 首屏' },
+  { kind: 'figure', label: '配图' },
   { kind: 'features', label: '特性网格' },
   { kind: 'split', label: '双栏' },
   { kind: 'quote', label: '引用' },
@@ -34,7 +35,14 @@ export function emptySection(kind: HomepageSectionKind): HomepageSection {
           primaryHref: '/',
           secondaryLabel: '',
           secondaryHref: '/',
+          imageSrc: '',
+          imageAlt: '',
         },
+      };
+    case 'figure':
+      return {
+        discriminant: 'figure',
+        value: { src: '', alt: '', caption: '' },
       };
     case 'features':
       return {

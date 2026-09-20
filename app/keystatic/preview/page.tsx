@@ -31,6 +31,7 @@ export default async function KeystaticPreviewPage({
         <nav className="studio-modes">
           <span aria-current="page">纯预览</span>
           <a href="/keystatic/preview?edit=1">双栏</a>
+          <a href="/assets">资源库</a>
           <a href="/keystatic">后台</a>
         </nav>
         <div className="studio-actions">

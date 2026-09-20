@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { HomepageSection, PostSummary } from '../lib/content-types';
+import { mediaUrl } from '../lib/media-url';
 
 /**
  * 首页区块 → React 组件。switch 必须穷尽 HomepageSection['discriminant']。
@@ -13,6 +14,8 @@ export function renderSection(
   switch (section.discriminant) {
     case 'hero':
       return <Hero {...section.value} />;
+    case 'figure':
+      return <Figure {...section.value} />;
     case 'features':
       return <Features {...section.value} />;
     case 'split':
@@ -38,6 +41,8 @@ function Hero({
   primaryHref,
   secondaryLabel,
   secondaryHref,
+  imageSrc = '',
+  imageAlt = '',
 }: {
   eyebrow: string;
   title: string;
@@ -46,7 +51,10 @@ function Hero({
   primaryHref: string;
   secondaryLabel: string;
   secondaryHref: string;
+  imageSrc?: string;
+  imageAlt?: string;
 }) {
+  const image = mediaUrl(imageSrc);
   return (
     <section className="section hero">
       {eyebrow ? <p className="eyebrow">{eyebrow}</p> : null}
@@ -60,6 +68,34 @@ function Hero({
           </HrefButton>
         ) : null}
       </div>
+      {image ? <img className="hero-image" src={image} alt={imageAlt} /> : null}
+    </section>
+  );
+}
+
+function Figure({
+  src,
+  alt,
+  caption,
+}: {
+  src: string;
+  alt: string;
+  caption: string;
+}) {
+  const image = mediaUrl(src);
+  if (!image) {
+    return (
+      <section className="section">
+        <p className="empty">配图还没有文件。在左侧选一张图。</p>
+      </section>
+    );
+  }
+  return (
+    <section className="section">
+      <figure className="site-figure">
+        <img src={image} alt={alt} />
+        {caption ? <figcaption>{caption}</figcaption> : null}
+      </figure>
     </section>
   );
 }
@@ -163,14 +199,20 @@ function PostList({
         <p className="empty">还没有文章。去 Admin 的「文章」里写一篇。</p>
       ) : (
         <ul className="post-list">
-          {items.map(post => (
-            <li key={post.slug}>
-              <Link href={`/posts/${post.slug}`}>
-                <strong>{post.title}</strong>
-                {post.summary ? <span>{post.summary}</span> : null}
-              </Link>
-            </li>
-          ))}
+          {items.map(post => {
+            const cover = mediaUrl(post.coverSrc);
+            return (
+              <li key={post.slug}>
+                <Link href={`/posts/${post.slug}`}>
+                  {cover ? (
+                    <img className="post-list-cover" src={cover} alt={post.coverAlt} />
+                  ) : null}
+                  <strong>{post.title}</strong>
+                  {post.summary ? <span>{post.summary}</span> : null}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       )}
     </section>

@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { filenameFromUrl, mediaUrl } from '../lib/media-url';
 
 export type CalloutTone = 'tip' | 'note' | 'warning';
 
@@ -74,7 +75,48 @@ export function Youtube({ url }: { url: string | null }) {
   );
 }
 
+export function Image({
+  src,
+  alt,
+  caption,
+}: {
+  src: string | null;
+  alt?: string;
+  caption?: string;
+}) {
+  const url = mediaUrl(src);
+  if (!url) {
+    throw new Error('图片组件缺少文件。在编辑器里选一张图。');
+  }
+  return (
+    <figure className="mdoc-figure">
+      <img src={url} alt={alt ?? ''} />
+      {caption ? <figcaption>{caption}</figcaption> : null}
+    </figure>
+  );
+}
+
+export function Attachment({
+  href,
+  label,
+}: {
+  href: string | null;
+  label?: string;
+}) {
+  const url = mediaUrl(href);
+  if (!url) {
+    throw new Error('附件组件缺少文件。在编辑器里选一个文件。');
+  }
+  return (
+    <p className="mdoc-file">
+      <a href={url}>{label || filenameFromUrl(url)}</a>
+    </p>
+  );
+}
+
 export const markdocComponents = {
+  Image,
+  Attachment,
   Callout,
   Youtube,
   Highlight,
